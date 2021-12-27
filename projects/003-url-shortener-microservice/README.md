@@ -1,39 +1,7 @@
-# Exercise Tracker
+# Url Shortener Microservice
 
-Your responses should have the following structures.
+- You can POST a URL to /api/shorturl and get a JSON response with original_url and short_url properties. Here's an example: { original_url : 'https://tomorrowdevs.com', short_url : 1}
 
-Exercise:
+- When you visit /api/shorturl/<short_url>, you will be redirected to the original URL.
 
-```
-{
-  username: "fcc_test"
-  description: "test",
-  duration: 60,
-  date: "Mon Jan 01 1990",
-  _id: "5fb5853f734231456ccb3b05"
-}
-```
-User:
-
-```
-{
-  username: "fcc_test",
-  _id: "5fb5853f734231456ccb3b05"
-}
-```
-Log:
-
-```
-{
-  username: "fcc_test",
-  count: 1,
-  _id: "5fb5853f734231456ccb3b05",
-  log: [{
-    description: "test",
-    duration: 60,
-    date: "Mon Jan 01 1990",
-  }]
-}
-```
-
-Hint: For the date property, the toDateString method of the Date API can be used to achieve the expected output.
+- If you pass an invalid URL that doesn't follow the valid http://www.example.com format, the JSON response will contain { error: 'invalid url' }
