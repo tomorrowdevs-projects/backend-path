@@ -17,10 +17,18 @@ class UnitTests(unittest.TestCase):
     #### tests ####
     ###############
 
-    def test_status_code(self):
-        response = self.app.get('/api/shorturl', follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+    # def test_status_code(self):
+    #     response = self.app.get('/api/shorturl', follow_redirects=True)
+    #     self.assertEqual(response.status_code, 200)
 
-        
+    def test_post(self):
+        response = self.app.post('/api/shorturl', data='http://www.example.com')
+        data = json.loads(response.data)
+        original_url = data['original_url']
+        short_url = data['short_url']
+        self.assertEqual(original_url, 'http://www.example.com')
+        self.assertEqual(short_url, 1)
+
+
 if __name__ == "__main__":
     unittest.main() 
