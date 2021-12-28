@@ -42,3 +42,8 @@ class UrlCollection:
             return True
         else:
             return False
+    
+    #clear collection
+    def clear(self):
+        self.collection.clear()
+        count = 0

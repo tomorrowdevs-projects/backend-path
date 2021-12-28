@@ -1,6 +1,6 @@
 import unittest
 import json
-from url_shortener import app
+from url_shortener import app, clear_collection
 
 class UnitTests(unittest.TestCase):
     # executed prior to each test
@@ -11,15 +11,11 @@ class UnitTests(unittest.TestCase):
 
     # executed after each test
     def tearDown(self):
-        pass
+        clear_collection()
 
     ###############
     #### tests ####
     ###############
-
-    # def test_status_code(self):
-    #     response = self.app.get('/api/shorturl', follow_redirects=True)
-    #     self.assertEqual(response.status_code, 200)
 
     def test_post(self):
         response = self.app.post('/api/shorturl', data='http://www.example.com')
@@ -34,6 +30,22 @@ class UnitTests(unittest.TestCase):
         data = json.loads(response.data)
         error = data['error']
         self.assertEqual(error, 'invalid url')
+
+    # external redirect not supported in test module
+    # def test_redirect(self):
+    #     response = self.app.post('/api/shorturl', data='http://www.example.com')
+    #     data = json.loads(response.data)
+    #     short_url = data['short_url']
+    #     address = f'/api/shorturl/{short_url}'
+    #     response = self.app.get(address, follow_redirects=True)
+    #     self.assertEqual(response.status_code, 302)
+
+    def test_wrong_redirect(self):
+        address = f'/api/shorturl/1'
+        response = self.app.get(address, follow_redirects=True)
+        data = json.loads(response.data)
+        error = data['error']
+        self.assertEqual(error, 'invalid short url')
 
 if __name__ == "__main__":
     unittest.main() 
