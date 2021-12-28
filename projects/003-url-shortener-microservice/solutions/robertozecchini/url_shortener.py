@@ -10,11 +10,10 @@ urls = url_collection.UrlCollection()
 def shorturl():
     raw_data = request.get_data()
     shorturl = urls.add_url(raw_data.decode('UTF-8'))
-    if shorturl == 0:
-        #invalid url
-        pass
+    if shorturl == 0:                   #invalid url
+        return jsonify({'error': 'invalid url'})
     else:
-        return jsonify({'original_url': str(urls.get_original(shorturl)), 'short_url': str(shorturl)})
+        return jsonify({'original_url': str(urls.get_original(shorturl)), 'short_url': shorturl})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True) 

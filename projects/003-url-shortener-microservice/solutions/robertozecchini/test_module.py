@@ -29,6 +29,11 @@ class UnitTests(unittest.TestCase):
         self.assertEqual(original_url, 'http://www.example.com')
         self.assertEqual(short_url, 1)
 
+    def test_invalid(self):
+        response = self.app.post('/api/shorturl', data='example.com')
+        data = json.loads(response.data)
+        error = data['error']
+        self.assertEqual(error, 'invalid url')
 
 if __name__ == "__main__":
     unittest.main() 

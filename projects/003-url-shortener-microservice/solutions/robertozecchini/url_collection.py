@@ -1,12 +1,4 @@
-class UrlCollection:
-    def __init__(self, url):
-        if (self.is_valid(url)):
-            self.original_url = url
-        else:
-            raise ValueError
-    
-    def is_valid(url):
-        return True
+import re
 
 class UrlCollection:
     def __init__(self):
@@ -45,4 +37,8 @@ class UrlCollection:
     
     #return if the url is valid
     def is_valid(self, url):
-        return True
+        pattern = r'(http|https)://(www.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}.[a-z]{2,6}(/[-a-zA-Z0-9@:%._\\+~#?&//=]*)?'
+        if re.fullmatch(pattern, url):
+            return True
+        else:
+            return False
