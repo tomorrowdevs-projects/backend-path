@@ -10,6 +10,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 from rest_framework.decorators import api_view
+from dateutil.parser import parse
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -24,7 +25,12 @@ def CreateExercise(request, _id):
         try:
             u = User.objects.get(pk = _id)
             data = json.loads(request.body)
-            date = data.get('date', datetime.now().strftime('%a %b %d %Y'))
+            date = data.get('date', '')
+            try:
+                date = parse(date)
+            except ValueError:
+                date = datetime.now()
+            date = date.strftime('%a %b %d %Y')
             exercise = Exercise(user = u, description = data['description'], date = date, duration = data['duration'])
             exercise.save(force_insert = True)
             return_value = {
