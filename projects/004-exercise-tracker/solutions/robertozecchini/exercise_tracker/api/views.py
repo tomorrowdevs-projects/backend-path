@@ -4,11 +4,12 @@ from rest_framework import viewsets, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import UserSerializer, ExerciseSerializer
+from .serializers import UserSerializer, ExerciseSerializer, LogSerializer
 from .models import User, Exercise
 import json
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
+from rest_framework.decorators import api_view
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -36,3 +37,13 @@ def CreateExercise(request, _id):
             return JsonResponse(return_value)
         except:
             return Response("exercise creation fails", status=status.HTTP_400_BAD_REQUEST)
+
+#@api_view
+def ViewLog(request, _id):
+    try:
+        if request.method == 'GET':
+            u = User.objects.get(pk = _id)
+            serializer = LogSerializer(u)
+            return JsonResponse(serializer.data)
+    except:
+        return Response("wrong log request", status=status.HTTP_400_BAD_REQUEST)

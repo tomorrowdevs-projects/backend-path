@@ -17,5 +17,6 @@ urlpatterns = [
     #path('', include(router.urls)),
     path('users/', users_list),
     path('users/:<slug:_id>/exercises/', views.CreateExercise),
+    path('users/:<slug:_id>/logs/', views.ViewLog),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
