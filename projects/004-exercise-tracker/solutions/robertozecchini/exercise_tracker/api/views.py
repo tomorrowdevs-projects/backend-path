@@ -49,7 +49,8 @@ def ViewLog(request, _id):
     try:
         if request.method == 'GET':
             u = User.objects.get(pk = _id)
-            serializer = LogSerializer(u)
+            print(request.GET)
+            serializer = LogSerializer(u, **request.GET)
             return JsonResponse(serializer.data)
     except:
         return Response("wrong log request", status=status.HTTP_400_BAD_REQUEST)
