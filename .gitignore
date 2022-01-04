@@ -102,3 +102,7 @@ dist
 
 # TernJS port file
 .tern-port
+projects/001-timestamp-microservice/.DS_Store
+projects/.DS_Store
+.gitignore
+.DS_Store
