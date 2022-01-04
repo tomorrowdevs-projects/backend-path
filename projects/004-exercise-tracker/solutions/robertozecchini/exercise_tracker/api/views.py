@@ -49,7 +49,6 @@ def ViewLog(request, _id):
     try:
         if request.method == 'GET':
             u = User.objects.get(pk = _id)
-            print(request.GET)
             serializer = LogSerializer(u, **request.GET)
             return JsonResponse(serializer.data)
     except:
