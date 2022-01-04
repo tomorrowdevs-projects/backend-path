@@ -30,7 +30,7 @@ class LogSerializer(serializers.ModelSerializer):
         self.log_to = parse(self.log_to[0])
         super().__init__(instance, data, **kwargs)
     def get_count(self, user):
-        return user.log.count()
+        return len(self.get_log(user))
     def get_log(self, user):
         logs = user.log.all()
         dates = [ex.date for ex in logs if parse(ex.date) > self.log_from and parse(ex.date) < self.log_to]
