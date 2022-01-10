@@ -4,12 +4,15 @@
   "description": "timestamp microservice",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./index.js"
+    "dev": "export NODE_ENV=development&& nodemon ./index.js",
+    "prod": "export NODE_ENV=production&& node ./index.js",
+    "start": "node ./index.js"
   },
   "author": "Angela Busato",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.2"
   }
 }
