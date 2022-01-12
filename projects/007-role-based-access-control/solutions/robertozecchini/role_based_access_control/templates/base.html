@@ -1,8 +1,20 @@
 <!-- templates/base.html -->
 
-<header>
-    <a href="{% url 'home' %}">Home</a> | <a href="{% url 'about' %}">About</a>
-</header>
+{% load static %}
 
-{% block content %}
-{% endblock content %}
+<html>
+    <head>
+        <title>Django blog</title>
+        <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <a href="{% url 'home' %}">Home</a> | <a href="{% url 'about' %}">About</a>
+            <h1><a href="{% url 'home' %}">Blog with Django</a></h1>
+        </header>
+        <div>
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </body>
+</html>
