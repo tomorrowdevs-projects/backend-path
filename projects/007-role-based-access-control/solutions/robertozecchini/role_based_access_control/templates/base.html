@@ -9,8 +9,13 @@
     </head>
     <body>
         <header>
-            <a href="{% url 'home' %}">Home</a> | <a href="{% url 'about' %}">About</a>
-            <h1><a href="{% url 'home' %}">Blog with Django</a></h1>
+            <div class="nav-left">
+                <a href="{% url 'home' %}">Home</a> | <a href="{% url 'about' %}">About</a>
+                <h1><a href="{% url 'home' %}">Blog with Django</a></h1>
+            </div>
+            <div class="nav-right">
+                <a href="{% url 'post_new' %}">+ New Blog Post</a>
+            </div>
         </header>
         <div>
             {% block content %}
