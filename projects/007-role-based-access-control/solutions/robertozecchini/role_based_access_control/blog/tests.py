@@ -1,16 +1,20 @@
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import Group, User
 
 from .models import Post
 
 class SimpleTests(TestCase):
+    testuser_name = 'testuser'
+    testuser_password = 'secret'
     
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            username='testuser',
+            username=self.testuser_name,
             email='test@email.com',
-            password='secret'
+            password=self.testuser_password
         )
         self.post = Post.objects.create(
             title='A good title',
@@ -70,3 +74,28 @@ class SimpleTests(TestCase):
         response = self.client.get(reverse('post_delete', args='1'))
         self.assertEqual(response.status_code, 200)
     
+    def test_registered_view(self):
+        response = self.client.get('/registered/')
+        self.assertRedirects(response,'/accounts/login/?next=/registered/',status_code=302,target_status_code=200)
+        self.client.login(username=self.testuser_name, password=self.testuser_password)
+        response = self.client.get('/registered/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'only_registered.html')
+        self.client.logout()
+    
+    def test_paying_view(self):
+        response = self.client.get('/paying/')
+        self.assertRedirects(response,'/accounts/login/?next=/paying/',status_code=302,target_status_code=200)
+        self.client.login(username=self.testuser_name, password=self.testuser_password)
+        response = self.client.get('/paying/')
+        self.assertEqual(response.status_code, 403)
+        self.assertTemplateUsed(response, '403.html')
+        self.client.logout()
+        group, created = Group.objects.get_or_create(name = 'paying')
+        self.user.groups.add(group)
+        self.client.login(username=self.testuser_name, password=self.testuser_password)
+        response = self.client.get('/paying/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'only_paying.html')
+        self.client.logout()
+        self.user.groups.clear()

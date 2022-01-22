@@ -15,7 +15,7 @@ def must_be_paying(user):
 class PayingUserMixin(LoginRequiredMixin, UserPassesTestMixin):
     def test_func(self):
         try:
-            return self.request.user.user_type == 'paying'
+            return self.request.user.groups.filter(name = 'paying').exists()
         except:
             return False
 
