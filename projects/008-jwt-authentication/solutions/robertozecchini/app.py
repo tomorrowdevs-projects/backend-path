@@ -7,7 +7,7 @@ users = {
         "user1": "password1",
         "user2": "password2"
         }
-access_duration = 30
+access_duration = 3
 refresh_duration = 120
 
 app = Flask(__name__)
