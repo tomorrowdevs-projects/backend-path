@@ -16,13 +16,13 @@ class AppTestCase(unittest.TestCase):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
         self.assertIn("error", response.get_json())
-        self.assertEqual(response.get_json()["error"], "missing token")
+        self.assertEqual(response.get_json()["error"], "Missing token")
 
     def test_01_login_wrong(self):
         response = self.client.post("/login", json = {"username":"foo","password":"bar"})
         self.assertEqual(response.status_code, 200)
         self.assertIn("error", response.get_json())
-        self.assertEqual(response.get_json()["error"], "invalid username or password")
+        self.assertEqual(response.get_json()["error"], "Invalid username or password")
 
     def test_02_login_right(self):
         response = self.client.post("/login", json = {"username":"user1","password":"password1"})
