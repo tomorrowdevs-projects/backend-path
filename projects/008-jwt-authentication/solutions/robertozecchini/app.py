@@ -7,8 +7,8 @@ users = {
         "user1": "password1",
         "user2": "password2"
         }
-access_duration = 500
-refresh_duration = 15
+access_duration = 30
+refresh_duration = 120
 
 app = Flask(__name__)
 
@@ -33,6 +33,34 @@ def login():
     else:
         return jsonify({"error": "invalid username or password"})
 
+@app.route("/refresh", methods = ["GET"])
+def refresh():
+    token = None
+    if "x-access-tokens" in request.headers:
+        token = request.headers["x-access-tokens"]
+    elif "authorization" in request.headers:
+        token = request.headers["authorization"]
+    if not token:
+        return jsonify({"error": "missing token"})
+    elif token.startswith("Bearer "):
+        token = token[7:]
+    try:
+        payload = jwt.decode(token, key, algorithms = ["HS256"])
+        t_type = payload["type"]
+        if t_type != "refresh":
+            return jsonify({"error": "Invalid token type"})
+        user = payload["id"]
+        if user in users:
+            access_token = create_token(user, "access", access_duration)
+            refresh_token = create_token(user, "refresh", refresh_duration)
+            return jsonify({"access_token": access_token, "refresh_token": refresh_token})
+        else:
+            return jsonify({"error": "Invalid token id"})
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "Signature expired"})
+    except:
+        return jsonify({"error": "Invalid token"})
+
 @app.route("/", methods = ["GET"])
 def hello_user():
     token = None
@@ -45,7 +73,6 @@ def hello_user():
     elif token.startswith("Bearer "):
         token = token[7:]
     try:
-        print(token)
         payload = jwt.decode(token, key, algorithms = ["HS256"])
         t_type = payload["type"]
         if t_type != "access":
