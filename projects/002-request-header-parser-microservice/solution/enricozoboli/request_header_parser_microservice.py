@@ -1,16 +1,16 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
-from encodings import utf_8
 
 
 class RequestHandler(BaseHTTPRequestHandler):
     """
-    A class to create a request handler object
+    A class for create a request handler object, inheriting from BaseHTTPRequestHandler,
+    to serve a response for a get request on localhost:8000/whoami endpoint.
     """
 
     def response(self):
         """
-        Function that write a response for the client
+        Method that writes a json converted response for the client
         """
         return self.wfile.write(bytes(self.convert_to_json(), 'utf-8'))
 
@@ -23,6 +23,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         })
 
     def do_GET(self):
+
         if self.path == '/whoami':
             self.send_response(200)
             self.send_header("Content-type", "application/json")
@@ -32,7 +33,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 def main():
     PORT = 8000
     server = HTTPServer(('', PORT), RequestHandler)
-    print(f'Server running on port{PORT}')
+    print(f'Server running on port {PORT}')
 
     server.serve_forever()
 
