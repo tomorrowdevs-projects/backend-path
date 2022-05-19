@@ -1,0 +1,18 @@
+{
+  "name": "jimmyhu",
+  "version": "1.0.0",
+  "description": "solution for request header parser microservice",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc",
+    "dev": "npm run compile && node ./build/index.js"
+  },
+  "author": "jimmy hu",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
+  }
+}
