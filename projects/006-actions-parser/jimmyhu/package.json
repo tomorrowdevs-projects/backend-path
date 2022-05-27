@@ -1,0 +1,25 @@
+{
+  "name": "jimmyhu",
+  "version": "1.0.0",
+  "description": "solution for actions parser",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --collectCoverage",
+    "compile": "tsc",
+    "dev": "npm run compile && node ./build/index.js"
+  },
+  "author": "jimmy hu",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "ts-node": "^10.8.0",
+    "typescript": "^4.6.4"
+  },
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.17.12",
+    "@types/jest": "^27.5.1",
+    "axios": "^0.27.2",
+    "jest": "^28.1.0",
+    "ts-jest": "^28.0.3"
+  }
+}
