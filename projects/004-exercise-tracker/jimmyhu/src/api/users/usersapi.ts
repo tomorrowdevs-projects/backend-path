@@ -6,17 +6,17 @@ const router = exps.Router()
 // global variables for store the information
 let users: user[] = []
 let exercises: exercise[] = []
-let invalidID:  number[] = []
+let alredyUsedIds:  number[] = []
 
 
 // user interface, the Id will be a random number for now
-interface user {
+type user = {
     'username' : string,
     '_id': number
 }
 
 // exercise extend the user interface due the structure require the same information anyway
-interface exercise extends user {
+type exercise = user  & {
     "description": string,
     "duration": number,
     "date": Date|string,
@@ -37,14 +37,14 @@ function checkdate (Indate:string|Date, start: string, end: string): boolean{
 router.post('/', (req: any, res:any): void => {
     let username: string = req.body.name
     let randID: number = Math.floor(Math.random() * 1000)
-    while (invalidID.includes(randID)){
+    while (alredyUsedIds.includes(randID)){
         let randID: number = Math.floor(Math.random() * 1000)
     }
     let newUser: user = {
         'username' : username,
         '_id': randID
     }
-    invalidID.push(randID)
+    alredyUsedIds.push(randID)
     users.push(newUser)
     res.json(newUser)
 })
@@ -55,8 +55,8 @@ router.get('/', (req: any, res:any): void => {
 
 router.post('/:_id/exercises', (req: any, res:any): void => {
     // check if the id exist in the stored list
-    if(!invalidID.includes(parseInt(req.params._id))){
-        res.send('Invalid ID')
+    if(!alredyUsedIds.includes(parseInt(req.params._id))){
+        res.send(`Invalid ID: The id ${req.params._id} do not exist`)
         return
     }
     if(new Date(req.body.date).toUTCString() == null || new Date(req.body.date).toUTCString() == 'Invalid Date'){
@@ -77,6 +77,7 @@ router.post('/:_id/exercises', (req: any, res:any): void => {
             break
         }
     }
+    
     let newExercise: exercise = {
         "username": username,
         "_id": userId,
@@ -85,14 +86,20 @@ router.post('/:_id/exercises', (req: any, res:any): void => {
         // if the date is undefined than it will register the current date in UTCS format
         "date": req.body.date == undefined ? new Date(Date.now()).toUTCString() : req.body.date,
     }
+    for (let ex of exercises){
+        if (ex.username == newExercise.username && ex._id == newExercise._id && ex.description == newExercise.description && ex.duration == newExercise.duration){
+            res.send('This Exercise already Exist')
+            return
+        }
+    }
     exercises.push(newExercise)
     res.json(newExercise)
 })
 
 router.get('/:_id/logs/:limit?', (req: any, res:any): void => {
 
-    if(!invalidID.includes(parseInt(req.params._id))){
-        res.send('Invalid ID')
+    if(!alredyUsedIds.includes(parseInt(req.params._id))){
+        res.send(`Invalid ID: The id ${req.params._id} do not exist`)
         return
     }
     let username: string = ''
@@ -117,7 +124,7 @@ router.get('/:_id/logs/:limit?', (req: any, res:any): void => {
         "username": username,
         "count": exerciseArray.length,
         "_id": req.params._id,
-        "log": exerciseArray
+        "log": exerciseArray.length > 0 ? exerciseArray : "This user doesn't have registered Exercise"
     }
     res.json(result)
 })
