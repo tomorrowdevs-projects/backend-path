@@ -26,7 +26,7 @@ const createUser = async (req, res) => {
 // getAllUsers will return an array of all users
 const getAllUsers = async (req, res) => {
     try {
-        result = await User.find();
+        let result = await User.find();
         return res.status(200).json(result);
     } catch (err) {
         console.log(err);
