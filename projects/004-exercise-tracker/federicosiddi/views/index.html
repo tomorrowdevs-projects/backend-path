@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Exercise Tracker Microservice</title>
+        <link
+            href="https://fonts.googleapis.com/css?family=Roboto"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <h1>Exercise Tracker Microservice</h1>
+        <div id="create-user-form">
+            <form action="/api/users/" method="post">
+                <label for="create-user"><strong>Create new User</strong></label
+                ><br />
+                <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="username"
+                />
+                <button type="submit">Create User</button>
+            </form>
+        </div>
+        <br />
+        <div id="post-exercise-form">
+            <form action="/api/users/:_id/exercises" method="post">
+                <label for="post-exercise"
+                    ><strong>Post new Exercise</strong></label
+                ><br />
+                <input
+                    type="text"
+                    name=":_id"
+                    id=":_id"
+                    placeholder="user id"
+                />
+                <input
+                    type="text"
+                    name="description"
+                    id="description"
+                    placeholder="description"
+                />
+                <input
+                    type="text"
+                    name="duration"
+                    id="duration"
+                    placeholder="duration"
+                />
+                <input type="date" name="date" id="date" placeholder="date" />
+                <button type="submit">Post Exercise</button>
+            </form>
+            <p>
+                <strong>GET user's exercise log: </strong>
+                <code
+                    >GET /api/users/:_id/logs?[from][&amp;to][&amp;limit]</code
+                >
+            </p>
+            <p><strong>[ ]</strong> = optional</p>
+            <p>
+                <strong>from, to</strong> = dates (yyyy-mm-dd);
+                <strong>limit</strong> = number
+            </p>
+            <p>
+                <strong>GET list of users: </strong>
+                <code>GET /api/users</code>
+            </p>
+        </div>
+    </body>
+</html>
