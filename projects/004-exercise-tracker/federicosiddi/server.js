@@ -4,19 +4,28 @@ const app = express();
 const port = process.env.PORT;
 const connectDB = require('./config/dbConn');
 const mongoose = require('mongoose');
+const path = require('path');
 
 //Connect to mongoDB
 connectDB();
 
+//middleware to handle json
 app.use(express.json());
+
+// middleware to handle urlencoded form data
 app.use(
     express.urlencoded({
         extended: false,
     })
 );
-app.use('/api', require('./routes/api'));
 
-app.get('/', (req, res) => res.send('Welcome to the exercise tracker API!'));
+// serve static file
+app.use('/', express.static(path.join(__dirname, '/public')));
+
+// default route
+app.use('/', require('./routes/root'));
+// api routes
+app.use('/api', require('./routes/api/api'));
 
 mongoose.connection.once('open', () => {
     console.log('Connected to the DB');

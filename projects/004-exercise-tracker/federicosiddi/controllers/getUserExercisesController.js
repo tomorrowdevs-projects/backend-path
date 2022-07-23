@@ -11,7 +11,9 @@ const getExercises = async (req, res) => {
     if (date_from >= date_to) {
         console.log(date_from);
         console.log(date_to);
-        return res.json({ error: 'please specify a valid date interval' });
+        return res
+            .status(400)
+            .json({ error: 'please specify a valid date interval' });
     }
 
     // here we check if limit is present and if is greater or equal than 0
@@ -55,10 +57,10 @@ const getExercises = async (req, res) => {
         res_obj['log'] = final_log;
 
         // finally we return the complete response object formatted as required
-        return res.json(res_obj);
+        return res.status(200).json(res_obj);
     } catch (err) {
         console.error(err);
-        return res.json({ error: 'Invalid user id' });
+        return res.status(400).json({ error: 'Invalid user id' });
     }
 };
 

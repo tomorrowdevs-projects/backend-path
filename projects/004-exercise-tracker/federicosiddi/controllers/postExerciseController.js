@@ -21,7 +21,7 @@ const createExercise = async (user_data, description, duration, date) => {
 // function that handle post request of an exercise
 const postExercise = async (req, res) => {
     const { description, duration, date } = req.body;
-    const user_id = req.params._id;
+    const user_id = req.body[':_id'] || req.params._id;
 
     // if a field in the request is missing
     if (!description || !duration) {

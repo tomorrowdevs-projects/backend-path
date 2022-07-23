@@ -1,8 +1,11 @@
 express = require('express');
 router = express.Router();
-const { createUser, getAllUsers } = require('../controllers/usersController');
-const postExercise = require('../controllers/postExerciseController');
-const getExercises = require('../controllers/getUserExercisesController');
+const {
+    createUser,
+    getAllUsers,
+} = require('../../controllers/usersController');
+const postExercise = require('../../controllers/postExerciseController');
+const getExercises = require('../../controllers/getUserExercisesController');
 
 router
     .route('/users')
