@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
     push:
-        branches: [solution_004_exercise-tracker]
+        branches: ['solution_004_exercise-tracker']
     pull_request:
-        branches: [solution_004_exercise-tracker]
+        branches: ['solution_004_exercise-tracker']
 
 env:
     DB_URI: ${{secrets.DB_URI}}
