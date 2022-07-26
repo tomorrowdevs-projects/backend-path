@@ -5,8 +5,15 @@ const mongoose = require('mongoose');
 const connectDb = require('../config/dbConn');
 
 describe('API Calls', () => {
-    beforeAll(() => {
-        connectDb();
+    beforeAll(async () => {
+        try {
+            await mongoose.connect(process.env.DB_URI, {
+                useUnifiedTopology: true,
+                useNewUrlParser: true,
+            });
+        } catch (err) {
+            console.error(err);
+        }
     });
 
     afterAll(async () => {
