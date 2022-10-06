@@ -169,12 +169,6 @@ ALTER TABLE `categorie`
   ADD CONSTRAINT `categorie_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
--- Limiti per la tabella `categorie_data`
---
-ALTER TABLE `categorie_data`
-  ADD CONSTRAINT `categorie_data_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
-
---
 -- Limiti per la tabella `clienti_indirizzi`
 --
 ALTER TABLE `clienti_indirizzi`
