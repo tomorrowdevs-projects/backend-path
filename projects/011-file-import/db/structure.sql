@@ -24,11 +24,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `agenti` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_user` int(11) NOT NULL,
   `agente` varchar(300) NOT NULL,
   `limit` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `id_user` (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
