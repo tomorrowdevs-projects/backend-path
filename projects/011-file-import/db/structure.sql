@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `agenti` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `agente` varchar(300) NOT NULL,
   `limit` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
