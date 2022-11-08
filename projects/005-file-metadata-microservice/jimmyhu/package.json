@@ -1,0 +1,20 @@
+{
+  "name": "jimmyhu",
+  "version": "1.0.0",
+  "description": "solution for exercise file metadata microservice",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc",
+    "dev": "npm run compile && node ./build/index.js"
+  },
+  "author": "jimmy hu",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "ts-node": "^10.8.0",
+    "typescript": "^4.6.4"
+  }
+}
