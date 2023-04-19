@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: Calculator API
+  version: ''
+tags:
+  - name: calculator
+paths:
+  /sum:
+    post:
+      tags:
+        - calculator
+      summary: Sum two number
+      description: Pass two number, return the sum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                addendOne:
+                  type: number
+                  example: 10
+                addendTwo:
+                  type: number
+                  example: 5
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  result:
+                    type: number
+                    example: 15      
+        '400':
+          description: Missing keys in body request and/or the keys aren't numbers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validationErrors'
+  /subtraction:
+    post:
+      tags:
+        - calculator
+      summary: Subtract two number
+      description: Pass two number, return the subtraction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                minuend:
+                  type: number
+                  example: 10
+                subtrahend:
+                  type: number
+                  example: 5
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  result:
+                    type: number
+                    example: 5      
+        '400':
+          description: Missing keys in body request and/or the keys aren't numbers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validationErrors'
+                
+  /multiply:
+    post:
+      tags:
+        - calculator
+      summary: Multiply two number
+      description: Pass two number, return the multiplication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                multiplier:
+                  type: number
+                  example: 10
+                multiplicand:
+                  type: number
+                  example: 5
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  result:
+                    type: number
+                    example: 50      
+        '400':
+          description: Missing keys in body request and/or the keys aren't numbers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validationErrors'
+                
+  /division:
+    post:
+      tags:
+        - calculator
+      summary: Divide two number
+      description: Pass two number, return the division
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                dividend:
+                  type: number
+                  example: 10
+                divisor:
+                  type: number
+                  example: 5
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                properties:
+                  result:
+                    type: number
+                    example: 2     
+        '400':
+          description: Missing keys in body request and/or the keys aren't numbers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validationErrors'
+                      
+components:
+  schemas:
+    validationErrors:
+      properties:
+        errors:
+          type: array
+          example: [
+              "Missing 'key_name' key in body request",
+              "'key_name' is not a number",
+            ]
