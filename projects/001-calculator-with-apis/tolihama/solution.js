@@ -13,10 +13,19 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// SWAGGER docs
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
+app.use(
+    '/api-docs',
+    swaggerUi.serve, 
+    swaggerUi.setup(swaggerDocument)
+);
 
 // Calculator APIs
 app.post("/sum", (req, res) => {
-    const reqBody = req.body;
+    const reqBody = req.body;s
 
     const errors = validator.validate(reqBody, {
         'addendOne': 'requested|number',
