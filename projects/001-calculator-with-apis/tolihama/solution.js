@@ -29,7 +29,7 @@ app.post("/sum", (req, res) => {
     }
 
     res.status(200).send({
-        'result': req.body.addendOne + req.body.addendTwo,
+        'result': parseFloat(req.body.addendOne) + parseFloat(req.body.addendTwo),
     });
 });
 
@@ -47,7 +47,7 @@ app.post("/subtraction", (req, res) => {
     }
 
     res.status(200).send({
-        'result': req.body.minuend - req.body.subtrahend,
+        'result': parseFloat(req.body.minuend) - parseFloat(req.body.subtrahend),
     });
 });
 
@@ -65,7 +65,7 @@ app.post("/multiply", (req, res) => {
     }
 
     res.status(200).send({
-        'result': req.body.multiplier * req.body.multiplicand,
+        'result': parseFloat(req.body.multiplier) * parseFloat(req.body.multiplicand),
     });
 });
 
@@ -83,7 +83,7 @@ app.post("/division", (req, res) => {
     }
 
     res.status(200).send({
-        'result': req.body.dividend * req.body.divisor,
+        'result': parseFloat(req.body.dividend) / parseFloat(req.body.divisor),
     });
 });
 
