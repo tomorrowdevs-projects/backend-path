@@ -1,6 +1,5 @@
 // Dependencies
 const express = require("express"); 
-const bodyParser = require('body-parser');
 
 // Custom dependencies
 
@@ -21,9 +20,20 @@ app.get('/api', (req, res) => {
 
 // Date param
 app.get('/api/:date', (req, res) => {
-    const date = req.params.date;
+    const dateParam = /[^0-9]/g.test(req.params.date)
+                        ? req.params.date 
+                        : parseInt(req.params.date);
+    const date = new Date(dateParam);
 
-    res.status(200).send({ date });
+    if(isNaN(date)) {
+        res.status(200).send({ error: 'Invalid Date' });
+        return;
+    }
+
+    res.status(200).send({
+        unix: date.getTime(),
+        utc: date.toUTCString(),
+    });
 });
 
 // Run server
