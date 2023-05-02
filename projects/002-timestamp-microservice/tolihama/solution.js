@@ -1,8 +1,6 @@
 // Dependencies
 const express = require("express"); 
 
-// Custom dependencies
-
 // Express App config
 const app = express(); 
 const PORT = process.env.PORT || 3000; 
@@ -26,7 +24,7 @@ app.get('/api/:date', (req, res) => {
     const date = new Date(dateParam);
 
     if(isNaN(date)) {
-        res.status(200).send({ error: 'Invalid Date' });
+        res.status(400).send({ error: 'Invalid Date' });
         return;
     }
 
