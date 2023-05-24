@@ -1,6 +1,7 @@
 // Dependencies
 const express = require("express"); 
 const bodyParser = require('body-parser');
+const routes = require("./routes/url_shortener");
 
 // Express App config
 const app = express(); 
@@ -10,12 +11,12 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// GLOBAL VARS
-const shortenedUrlsList = [];
+// Use routes from routes files
+app.use('/', routes);
 
 // Calculator APIs
 // Create New Shortened Url Route
-app.post("/api/shorturl", (req, res) => {
+/*app.post("/api/shorturl", (req, res) => {
     const reqBody = req.body;
 
     // Check if exist 'original_url' key in body request
@@ -44,23 +45,19 @@ app.post("/api/shorturl", (req, res) => {
         original_url: originalUrl,
         short_url: shortenedUrlsList.length,
     });
-});
+});*/
 
-// Shortened Url Redirect Route
-app.get("/api/shorturl", (req, res) => {
-
-});
 
 // Run server
 app.listen(PORT, () => { 
     console.log(`API is listening on port ${PORT}`); 
 });
 
-const isValidUrl = urlString => {
+/*const isValidUrl = urlString => {
     try { 
         return Boolean(new URL(urlString)); 
     }
     catch(e){ 
         return false; 
     }
-}
+}*/
