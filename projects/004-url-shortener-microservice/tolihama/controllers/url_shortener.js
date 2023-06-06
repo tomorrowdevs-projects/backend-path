@@ -1,3 +1,5 @@
+const randomStringGenerator = require('../utils/random_string_generator');
+
 class UrlShortenerController {
 
     // Properties
