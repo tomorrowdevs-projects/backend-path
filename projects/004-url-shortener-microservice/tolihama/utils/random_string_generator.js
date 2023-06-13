@@ -9,4 +9,4 @@ class RandomStringGenerator {
     }
 }
 
-module.export = new RandomStringGenerator;
+module.exports = new RandomStringGenerator;
