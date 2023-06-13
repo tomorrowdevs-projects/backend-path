@@ -1,25 +1,26 @@
-const randomStringGenerator = require('../utils/random_string_generator');
+// Deps
+const UrlShortenerHelpers = require('../helpers/url_shortener');
+const db = require('../db/database');
 
 class UrlShortenerController {
-
-    // Properties
-    shortenedUrlsList = [];
-
-    // Routes methods
     redirect = (req, res) => {
-        const shortUrl = parseInt(req.params.shortUrl);
+        db.get(
+            'SELECT original_url FROM urls WHERE shortened_url = ?',
+            [
+                req.params.shortUrl
+            ],
+            (err, row) => {
+                if(err || typeof row === 'undefined') {
+                    res.status(404).send({ error: 'URL not found' });
+                    return;
+                }
 
-        if(this.shortenedUrlsList[shortUrl - 1] === undefined) {
-            res.status(404).send({
-                error: 'URL not found',
-            });
-            return;
-        }
-
-        res.redirect(301, this.shortenedUrlsList[shortUrl - 1]);
+                res.redirect(301, row.original_url);
+            }
+        );
     }
 
-    store = (req, res) => {
+    store = async (req, res) => {
         const reqBody = req.body;
 
         // Check if exist 'original_url' key in body request
@@ -31,37 +32,36 @@ class UrlShortenerController {
         }
 
         // Check if 'original_url' is a string with the correct format
-        const originalUrl = reqBody.original_url;
-        const isValidUrl = this.isValidHttpUrl(originalUrl);
-
-        if(!isValidUrl) {
+        if(!UrlShortenerHelpers.isValidHttpUrl(reqBody.original_url)) {
             res.status(400).send({
                 error: "invalid url",
             });
             return;
         }
-    
-        // If request is validated, add 'original_url' in shortenedUrlsList
-        this.shortenedUrlsList.push(originalUrl);
-    
-        res.status(200).send({
-            original_url: originalUrl,
-            short_url: this.shortenedUrlsList.length,
-        });
-    }
 
-    // Helper methods
-    isValidHttpUrl(str) {
-        const pattern = new RegExp(
-          '^(https?:\\/\\/)?' + // protocol
-            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-            '(\\#[-a-z\\d_]*)?$', // fragment locator
-          'i'
+        // If request is validated, procede to save the url in the database
+        // Generate a unique shortened_url
+        const shortenedUrl = await UrlShortenerHelpers.genUniqueShortenedUrl();
+
+        // Insert in db
+        db.run(
+            'INSERT INTO urls (original_url, shortened_url) VALUES(?, ?)',
+            [
+                reqBody.original_url,
+                shortenedUrl,
+            ],
+            (err, result) => {
+                if(err) {
+                    res.status(400).send({ "error": err.message });
+                    return;
+                }
+
+                res.status(200).send({
+                    original_url: reqBody.original_url,
+                    short_url: shortenedUrl,
+                });
+            }
         );
-        return pattern.test(str);
     }
 }
 
