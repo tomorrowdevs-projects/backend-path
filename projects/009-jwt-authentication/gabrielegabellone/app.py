@@ -7,9 +7,10 @@ from flask import Flask, request, jsonify, make_response
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "your secret key"
 
-user = {"email": "test@email.com", "password": "test", "username": "test"}
+user = {"email": "test@email.com", "password": "test"}
 access_token_lifetime = 30
 refresh_token_lifetime = 50
+blacklist_tokens = []
 key = app.config["SECRET_KEY"]
 
 def token_required(function):
@@ -26,12 +27,12 @@ def token_required(function):
         try:
             data = jwt.decode(token, key, algorithms="HS256")
             if data["email"] == user["email"]:
-                return function(user)
+                return function()
         except jwt.exceptions.ExpiredSignatureError:
             return make_response(jsonify({"msg": "Token is expired."}), 400)
         except jwt.exceptions.DecodeError:
             return make_response(jsonify({"msg": "Error decoding token."}), 400)
-        
+    wrapper.__name__ = function.__name__
     return wrapper
 
 def generate_token(duration: int, payload: dict, key: str) -> str:
@@ -49,12 +50,12 @@ def generate_token(duration: int, payload: dict, key: str) -> str:
 
 @app.route("/", methods=["GET"])
 def homepage():
-    return "This is an unprotected route."
+    return "This is the homepage and it is an unprotected route."
 
-@app.route("/user", methods=["GET"])
+@app.route("/protected-area", methods=["GET"])
 @token_required
-def homepage_user(user):
-    return "Welcome {}!".format(user["username"])
+def protected_area():
+    return "Welcome in the protected area."
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -89,6 +90,13 @@ def refresh():
         return make_response(jsonify({"msg": "Token is expired."}), 400)
     except jwt.exceptions.DecodeError:
         return make_response(jsonify({"msg": "Error decoding token."}), 400)
+
+@app.route("/logout", methods=["POST"])
+@token_required
+def logout():
+    token = request.headers["Authorization"][7:]
+    blacklist_tokens.append(token)
+    return make_response(jsonify({'msg': 'Logout success'}), 200)
 
 if __name__ == "__main__":
     app.run(debug=True)
