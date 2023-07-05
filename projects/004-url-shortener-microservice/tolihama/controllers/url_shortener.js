@@ -5,7 +5,7 @@ const db = require('../db/database');
 class UrlShortenerController {
     redirect = (req, res) => {
         db.get(
-            'SELECT original_url FROM urls WHERE shortened_url = ?',
+            'SELECT id, original_url FROM urls WHERE shortened_url = ?',
             [
                 req.params.shortUrl
             ],
@@ -14,6 +14,16 @@ class UrlShortenerController {
                     res.status(404).send({ error: 'URL not found' });
                     return;
                 }
+
+                // DB Insert of redirect request (ip, timestamp) for statistics
+                db.run(
+                    'INSERT INTO requestes (ip, url_id, timestamp) VALUES(?, ?, ?)',
+                    [
+                        req.ip,
+                        row.id,
+                        Date.now(),
+                    ]
+                );
 
                 res.redirect(301, row.original_url);
             }
