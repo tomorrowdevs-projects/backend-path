@@ -2,6 +2,7 @@ from flask import Blueprint, request, make_response, jsonify
 
 bp = Blueprint('division', __name__)
 
+
 @bp.route("", methods=["POST"])
 def division():
     data = request.get_json()

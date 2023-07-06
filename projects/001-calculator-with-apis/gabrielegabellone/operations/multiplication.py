@@ -2,6 +2,7 @@ from flask import Blueprint, request, make_response, jsonify
 
 bp = Blueprint('multiplication', __name__)
 
+
 @bp.route("", methods=["POST"])
 def multiplication():
     data = request.get_json()
@@ -11,6 +12,8 @@ def multiplication():
 
         product = multiplicand     
         for m in multiplicators:
+            if type(m) not in [int, float]:
+                raise TypeError
             product *= m
 
         return make_response(jsonify({"result": product}), 200)

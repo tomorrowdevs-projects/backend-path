@@ -2,6 +2,7 @@ from flask import Blueprint, request, make_response, jsonify
 
 bp = Blueprint('subtraction', __name__)
 
+
 @bp.route("", methods=["POST"])
 def subtraction():
     data = request.get_json()
