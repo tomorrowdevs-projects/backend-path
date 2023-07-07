@@ -1,9 +1,11 @@
 from flask import Blueprint, request, make_response, jsonify
+from flasgger import swag_from
 
 bp = Blueprint('division', __name__)
 
 
 @bp.route("", methods=["POST"])
+@swag_from("../docs/division.yml")
 def division():
     data = request.get_json()
     try:
