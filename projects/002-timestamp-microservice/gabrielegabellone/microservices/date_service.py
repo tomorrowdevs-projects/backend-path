@@ -2,6 +2,7 @@ import datetime
 import time
 
 from flask import Blueprint, request, jsonify, make_response
+from flasgger import swag_from
 
 bp = Blueprint("date_bp", __name__)
 today = datetime.date.today()
@@ -18,6 +19,7 @@ def from_datetime_to_utc(date_to_convert: datetime.datetime) -> str:
 
 
 @bp.route("/:date")
+@swag_from("../docs/from_date_to_unix_and_utc.yml")
 def from_date_to_unix_and_utc():
     args = request.args
 
@@ -31,10 +33,11 @@ def from_date_to_unix_and_utc():
         utc = from_datetime_to_utc(date_to_convert)
         return jsonify({"unix": unix_timestamp, "utc": utc})
     except ValueError:
-        return jsonify({"error": "Invalid Date"})
+        return make_response(jsonify({"error": "Invalid Date"}), 400)
 
 
 @bp.route("/<int:unix_timestamp>")
+@swag_from("../docs/from_unix_to_utc.yml")
 def from_unix_to_utc(unix_timestamp: int):
     try:
         utc_date = datetime.datetime.utcfromtimestamp(unix_timestamp)

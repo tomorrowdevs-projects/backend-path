@@ -39,7 +39,7 @@ class TestDateService(unittest.TestCase):
     def test_from_date_to_unix_and_utc_value_error(self):
         response = self.app.test_client().get("/api/:date?year=2023&month=17&day=7")
         self.assertIn(b'{"error":"Invalid Date"}', response.data, "Expected a different error message.")
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(400, response.status_code)
 
     def test_from_unix_to_utc(self):
         response = self.app.test_client().get("/api/1450998000")
