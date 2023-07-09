@@ -9,7 +9,8 @@ app = FastAPI(
 
 @app.get(
         "/api/whoami",
-        summary="Returns a JSON object with your IP address and preferred language and software specified in the header.",
+        summary="Returns a JSON object with your IP address and preferred language and software specified in the "
+                "header.",
         responses={
             200: {
                 "content": {
