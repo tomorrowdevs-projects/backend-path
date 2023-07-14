@@ -9,6 +9,16 @@ import validators
 class UrlShortener(BaseModel):
     original_url: str
 
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "original_url": "https://tomorrowdevs.com"
+                }
+            ]
+        }
+    }
+
 
 app = FastAPI(title="URL Shortener Microservice")
 
@@ -46,8 +56,11 @@ def create_short_url(url: UrlShortener) -> JSONResponse:
     is_a_valid_url = validators.url(original_url)
 
     if is_a_valid_url:
-        if original_url in short_urls_created:
-            short_url = short_urls_created[original_url]
+        if original_url in short_urls_created.values():
+            short_urls = list(short_urls_created.keys())
+            original_urls = list(short_urls_created.values())
+            i = original_urls.index(original_url)
+            short_url = short_urls[i]
         else:
             short_url = len(short_urls_created) + 1
             short_urls_created[short_url] = original_url
