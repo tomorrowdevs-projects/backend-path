@@ -1,0 +1,47 @@
+summary: From input date to Unix timestamp and UTC
+description: This endpoint returns a JSON object with a unix key that is a Unix timestamp of the input date in milliseconds 
+             and a utc key that is a string of the input date in the format "Thu, 01 Jan 1970 00:00:00 GMT".
+             If no parameters are passed, the current date is passed by default.
+parameters:
+    - in: query
+      name: year
+      schema:
+          type: integer
+          description: The year of the input date, by default the current year
+          example: 2023
+    - in: query
+      name: month
+      schema:
+          type: integer
+          description: The month of the input date, by default the current month
+          example: 7
+    - in: query
+      name: day
+      schema:
+          type: integer
+          description: The day of the input date, by default the current day
+          example: 8
+responses:
+    '200':
+        description: Successful operation
+        content:
+            application/json:
+                schema:
+                    type: object
+                    properties:
+                        unix:
+                            type: integer
+                            example: 1688767200
+                        utc:
+                            type: string
+                            example: Sat, 08 Jul 2023 00:00:00 GMT
+    '400':
+        description: Bad request
+        content:
+            application/json:
+                schema:
+                    type: object
+                    properties:
+                        error:
+                            type: string
+                            example: Invalid Date
