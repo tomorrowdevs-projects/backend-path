@@ -4,6 +4,7 @@
 - Run the app
 ```cd exercise_tracker```
 ```python manage.py runserver```
+- To see the API documentation and test it with Swagger go to ```http://localhost:8000/swagger```
 
 ## Migrations
 - To make the migrations (when changes are made to the db models):
