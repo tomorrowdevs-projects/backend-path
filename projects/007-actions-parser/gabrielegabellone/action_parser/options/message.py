@@ -10,54 +10,62 @@ class Message:
         """
         self.structure = structure
 
-    def is_formatted(self) -> bool:
-        """Check if the message content is already formatted.
+    def format(self, event: dict):
+        """Takes care of formatting the content of the message, replacing the words between the double braces with
+        those provided by an input event.
 
-        :return: `True` if the message is already formatted, `False` otherwise
+        :param event: event containing the data with which to replace the words of the message
         """
-        if "{{" not in self.structure:
-            return True
-        return False
+        string_to_check = self.structure
 
-    def format(self, variables: dict):
-        """Takes care of formatting the content of the message based on the variables supplied as input.
+        if "}}" in string_to_check:
+            formatted_string = ""
 
-        :param variables: the reference variables for formatting the message
-        """
-        message = self.structure
+            while "}}" in string_to_check:
+                closed_brace_index = string_to_check.index("}")
+                
+                if string_to_check[closed_brace_index+1] == "}":
+                    if "{{" in string_to_check[:closed_brace_index]:
+                        open_braces_found = False
+                        open_brace_index = closed_brace_index - 1
+                        while not open_braces_found:
+                            if string_to_check[open_brace_index] == "{" and string_to_check[open_brace_index - 1] == "{":
+                                open_braces_found = True
+                            open_brace_index -= 1
 
-        message_pieces = re.split("[{}]+", message)
+                        option_key = string_to_check[open_brace_index+2:closed_brace_index]
+                        option_value = self.get_option_value(option_key, event)
+                        formatted_string += string_to_check[:open_brace_index] + str(option_value)
+                        string_to_check = string_to_check[closed_brace_index+2:]
+                        if "}}" not in string_to_check:
+                            formatted_string += string_to_check
+                    else:
+                        formatted_string += string_to_check[:closed_brace_index+2]
+                        string_to_check = string_to_check[closed_brace_index+2:]
+                else:
+                    formatted_string += string_to_check[:closed_brace_index+1]
+                    string_to_check = string_to_check[closed_brace_index+1:]
 
-        substitutes = {}
-        for message_piece in message_pieces:
-            if "." in message_piece:
-                keys = message_piece.split(".")
-                try:
-                    value = self.extract_value(variables, keys)
-                    substitutes[message_piece] = value
-                except KeyError:
-                    pass
-
-        message_to_format = "".join(message_pieces)
-        for s in substitutes:
-            formatted_message = message_to_format.replace(s, str(substitutes[s]))
-            message_to_format = formatted_message
-
-        self.structure = formatted_message
+            self.structure = formatted_string
 
     @staticmethod
-    def extract_value(variables: dict, keys: list):
-        """It takes care of extracting a value from a dict starting from a list containing keys. For example,
-        if I pass a list like the following `[1, 'name']`, the function will look inside the `variables`
-        parameter, first for the value of the key 1 and inside it the value of the key 'name', and will return the
-        latter.
+    def get_option_value(option_key: str, event: dict):
+        """Takes care of returning the option value starting from an option key and a reference event.
 
-        :param variables: dict containing the value to look up
-        :param keys: contains the keys to look for in the 'variables' parameter, they are ordered so that the key at
-            index 1 is contained in the value of the one at index 0 and so on
-        :return: the value found
+        :param option_key: the key or a set of keys delimited by a period
+        :param event: dict containing the option keys from which to extract the option value
+        :return: the value found, an empty string is returned if a KeyError occurs
         """
-        for k in keys:
-            variable = variables[k]
-            variables = variable
-        return variable
+        if "." in option_key:
+            keys = option_key.split(".")
+        else:
+            keys = [option_key]
+
+        try:
+            for k in keys:
+                value = event[k]
+                event = value
+        except KeyError:
+            value = ""
+
+        return value

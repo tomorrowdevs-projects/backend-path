@@ -1,3 +1,5 @@
+import requests
+
 from action_parser.options.message import Message
 from action_parser.options.url import Url
 
@@ -28,15 +30,16 @@ class Action:
         """
         if self.type == "HTTPRequestAction":
             url = Url(self.options["url"])
-            if not url.is_formatted():
-                url.format(event)
-            data = url.get_data()
-            event[self.name] = data
+            url.format(event)
+            try:
+                data = url.get_data()
+                event[self.name] = data
+            except requests.exceptions.ConnectionError:
+                quit()
 
         elif self.type == "PrintAction":
             message = Message(self.options["message"])
-            if not message.is_formatted():
-                message.format(event)
+            message.format(event)
             formatted_message = message.structure
             print(formatted_message)
 
