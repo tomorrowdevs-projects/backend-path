@@ -1,25 +1,27 @@
 const express = require("express");
-const dotenv = require("dotenv");
 const morgan = require("morgan");
+const calculatorRouter = require("./routes/calculatorRoutes");
+const globalErrorHandler = require("./middleware/errorMiddleware");
+const AppError = require("./util/appError");
 
 const app = express();
-
-dotenv.config({ path: "./config.env" });
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-const PORT = process.env.PORT || 3000;
+app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.status(200).json({
-    status: "success",
-    data: { message: "server running" },
-  });
+app.use("/api/v1/calculator", calculatorRouter);
+
+app.all("*", (req, res, next) => {
+  const err = new AppError(
+    `Can't find ${req.originalUrl} on this server!`,
+    404
+  );
+  next(err);
 });
 
-// DATABASE CONNECTION
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.use(globalErrorHandler);
+
+module.exports = app;
