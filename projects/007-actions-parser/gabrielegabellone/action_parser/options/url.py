@@ -2,7 +2,7 @@ import json
 
 import requests
 
-from options.message import Message
+from action_parser.options.message import Message
 
 
 class Url(Message):

@@ -1,8 +1,7 @@
 import argparse
 import json
 
-from options.message import Message
-from options.url import Url
+from action_parser.action import Action
 
 
 def start_story(story: dict):
@@ -10,23 +9,13 @@ def start_story(story: dict):
 
     :param story: the content of the story JSON file in a dict format
     """
-    responses = {}
+    event_input = {}
     actions = story["actions"]
 
     for action in actions:
-        if action["type"] == "HTTPRequestAction":
-            url = Url(action["options"]["url"])
-            if not url.is_formatted():
-                url.format(responses)
-            data = url.get_data()
-            responses[action["name"]] = data
-
-        elif action["type"] == "PrintAction":
-            message = Message(action["options"]["message"])
-            if not message.is_formatted():
-                message.format(responses)
-            formatted_message = message.structure
-            print(formatted_message)
+        action = Action(action["type"], action["name"], action["options"])
+        event_output = action.execute(event_input)
+        event_input = event_output
 
 
 if __name__ == "__main__":
