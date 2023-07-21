@@ -14,6 +14,7 @@ router.post(
   validator.validate(["minuted", "subtrahend"]),
   calculatorMiddleware.subtract
 );
+
 router.post(
   "/multiply",
   validator.validate(["multiplier", "multiplicand"]),

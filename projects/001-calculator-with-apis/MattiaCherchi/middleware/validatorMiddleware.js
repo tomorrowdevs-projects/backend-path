@@ -9,7 +9,10 @@ exports.validate = (requiredFields) => (req, res, next) => {
       !body.hasOwnProperty(field) ||
       !numberType.includes(typeof body[field])
     ) {
-      const err = new AppError("field are required and must be numbers", 400);
+      const err = new AppError(
+        `fields: ${requiredFields}  are required and must be numbers`,
+        400
+      );
       return next(err);
     }
   }
