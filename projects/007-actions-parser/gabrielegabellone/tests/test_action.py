@@ -34,6 +34,32 @@ class TestActionHTTPRequestAction(unittest.TestCase):
         expected = {"location": {"country_phone": "+39", "region": "Lazio", "city": "Rome"}}
         self.assertEqual(actual, expected, "Expected a different output event.")
 
+    @patch("action_parser.action.requests")
+    def test_execute_status_code_non_2XX(self, mock_requests):
+        """Tests that if, during the execution of an action, a non-2XX status code is returned from a request,
+        the program is stopped."""
+        action = Action(self.type, self.name, self.options)
+        event_input = {}
+
+        mock_response = MagicMock()
+        mock_response.status_code = 404
+
+        mock_requests.get.return_value = mock_response
+
+        with self.assertRaises(SystemExit):
+            action.execute(event_input)
+
+    @patch("action_parser.action.requests")
+    def test_execute_connection_error(self, mock_requests):
+        """Tests that if a ConnectionError occurs during the execution of an action, the program is stopped."""
+        action = Action(self.type, self.name, self.options)
+        event_input = {}
+
+        mock_requests.get.side_effect = ConnectionError
+
+        with self.assertRaises(SystemExit):
+            action.execute(event_input)
+
 
 class TestActionPrintAction(unittest.TestCase):
     def setUp(self):

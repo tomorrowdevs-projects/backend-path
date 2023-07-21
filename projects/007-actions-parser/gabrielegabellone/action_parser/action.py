@@ -4,6 +4,7 @@ from action_parser.options import Options
 
 
 class Action:
+    """Represents an action contained in a story JSON file."""
     def __init__(self, type: str, name: str, options: dict):
         """Constructor method.
 
@@ -30,13 +31,13 @@ class Action:
         if self.type == "HTTPRequestAction":
             options = Options(type="Url", content=self.options["url"])
             options.format(event)
+            url = options.content
             try:
-                url = options.content
                 response = requests.get(url)
                 if response.status_code not in range(200, 300):
                     quit()
                 event[self.name] = response.json()
-            except requests.exceptions.ConnectionError:
+            except ConnectionError:
                 quit()
 
         elif self.type == "PrintAction":

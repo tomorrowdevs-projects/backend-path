@@ -51,7 +51,7 @@ class Options:
     def get_option_value(option_key: str, event: dict):
         """Takes care of returning the option value starting from an option key and a reference event.
 
-        :param option_key: the key or a set of keys delimited by a period
+        :param option_key: one or more dot-delimited keys
         :param event: dict containing the option keys from which to extract the option value
         :return: the value found, an empty string is returned if a KeyError occurs
         """
