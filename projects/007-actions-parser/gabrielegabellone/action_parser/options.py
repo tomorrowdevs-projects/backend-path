@@ -1,22 +1,21 @@
-import re
-
-
-class Message:
-    """Represents an object of type message that can be contained in the options of an action."""
-    def __init__(self, structure: str):
+class Options:
+    """Represents the options of a given action."""
+    def __init__(self, type: str, content: str):
         """Constructor method.
 
-        :param structure: the content of the message itself
+        :param type: specifies the type of content of the options, for example if the content is a url, type must be "Url"
+        :param content: the contents of options, can be for example a url or a simple string
         """
-        self.structure = structure
+        self.type = type
+        self.content = content
 
     def format(self, event: dict):
-        """Takes care of formatting the content of the message, replacing the words between the double braces with
-        those provided by an input event.
+        """Takes care of going to format the contents of the Options object replacing the words between the double braces
+        with those provided by an input event.
 
-        :param event: event containing the data with which to replace the words of the message
+        :param event: event containing the data with which to replace the words of the Options content
         """
-        string_to_check = self.structure
+        string_to_check = self.content
 
         if "}}" in string_to_check:
             formatted_string = ""
@@ -46,7 +45,7 @@ class Message:
                     formatted_string += string_to_check[:closed_brace_index+1]
                     string_to_check = string_to_check[closed_brace_index+1:]
 
-            self.structure = formatted_string
+            self.content = formatted_string
 
     @staticmethod
     def get_option_value(option_key: str, event: dict):

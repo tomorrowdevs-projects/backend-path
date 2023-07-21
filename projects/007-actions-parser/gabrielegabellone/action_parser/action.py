@@ -1,7 +1,6 @@
 import requests
 
-from action_parser.options.message import Message
-from action_parser.options.url import Url
+from action_parser.options import Options
 
 
 class Action:
@@ -29,10 +28,11 @@ class Action:
         :return: the event itself given in input with in addition the result of this execution
         """
         if self.type == "HTTPRequestAction":
-            url = Url(self.options["url"])
-            url.format(event)
+            options = Options(type="Url", content=self.options["url"])
+            options.format(event)
             try:
-                response = requests.get(url.structure)
+                url = options.content
+                response = requests.get(url)
                 if response.status_code not in range(200, 300):
                     quit()
                 event[self.name] = response.json()
@@ -40,9 +40,9 @@ class Action:
                 quit()
 
         elif self.type == "PrintAction":
-            message = Message(self.options["message"])
-            message.format(event)
-            formatted_message = message.structure
-            print(formatted_message)
+            options = Options(type="Message", content=self.options["message"])
+            options.format(event)
+            message = options.content
+            print(message)
 
         return event
