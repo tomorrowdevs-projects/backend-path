@@ -1,7 +1,3 @@
-import json
-
-import requests
-
 from action_parser.options.message import Message
 
 
@@ -13,13 +9,3 @@ class Url(Message):
         :param structure: the url itself
         """
         self.structure = structure
-
-    def get_data(self) -> dict:
-        """Takes care of making a GET request to the url itself and returns the response data in JSON in a dict format.
-
-        :return: the data returned by the request
-        """
-        url = self.structure
-        content = requests.get(url).content
-        data = json.loads(content)
-        return data

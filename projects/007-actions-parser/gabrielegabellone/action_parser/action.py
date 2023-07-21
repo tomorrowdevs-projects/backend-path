@@ -32,8 +32,10 @@ class Action:
             url = Url(self.options["url"])
             url.format(event)
             try:
-                data = url.get_data()
-                event[self.name] = data
+                response = requests.get(url.structure)
+                if response.status_code not in range(200, 300):
+                    quit()
+                event[self.name] = response.json()
             except requests.exceptions.ConnectionError:
                 quit()
 
