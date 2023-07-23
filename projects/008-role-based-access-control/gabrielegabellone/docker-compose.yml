@@ -1,0 +1,17 @@
+version: '3.4'
+
+volumes:
+  db:
+    driver: local
+
+services:
+  db:
+    image: mysql/mysql-server:latest
+    container_name: database
+    ports:
+      - "3308:3306"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+        - ./docker/provision/mysql/init:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: local
