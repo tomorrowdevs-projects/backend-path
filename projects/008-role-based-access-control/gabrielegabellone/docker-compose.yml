@@ -5,13 +5,27 @@ volumes:
     driver: local
 
 services:
+  flask-app:
+    container_name: flask-app
+    build:
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '5000:5000'
+    depends_on:
+      db:
+        condition: service_healthy
   db:
     image: mysql/mysql-server:latest
     container_name: database
     ports:
-      - "3308:3306"
+      - "3308:3308"
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
         - ./docker/provision/mysql/init:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: local
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10

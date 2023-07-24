@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_login import LoginManager
+from flask_migrate import Migrate
 from flasgger import Swagger
 
 from models import db, User
@@ -35,6 +36,7 @@ def create_app() -> Flask:
     app = Flask(__name__)
     app.config.from_object("config")
     db.init_app(app)
+    migrate = Migrate(app, db)
     register_blueprint_and_add_login_manager(app)
     template = {
         "info": {
