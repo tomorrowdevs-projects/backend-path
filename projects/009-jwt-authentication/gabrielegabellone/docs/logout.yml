@@ -1,0 +1,28 @@
+summary: This endpoint allows you to logout to the system
+security:
+  - bearerAuth: []
+tags:
+    - auth
+responses:
+    '200':
+        description: Successful operation
+        content:
+            application/json:
+                schema:
+                    type: object
+                    properties:
+                        msg:
+                            type: string
+                            example: Logout success
+    '400':
+        description: Token expired or error decoding token
+    '401':
+        description: Unauthorized
+        content:
+            application/json:
+                schema:
+                    type: object
+                    properties:
+                        msg:
+                            type: string
+                            example: Authorization required

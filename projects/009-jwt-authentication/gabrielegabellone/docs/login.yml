@@ -1,0 +1,50 @@
+summary: This endpoint allows you to authenticate, issuing the access token and the refresh token
+tags:
+    - auth
+requestBody:
+    content:
+        application/json:
+            schema:
+                type: object
+                properties:
+                    email:
+                        type: string
+                        example: mariorossi@email.com
+                    password:
+                        type: string
+                        example: password
+    required: true
+responses:
+    '200':
+        description: Successful operation
+        content:
+            application/json:
+                schema:
+                    type: object
+                    properties:
+                        token:
+                            type: string
+                            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTAyODg3MTEsImV4cCI6MTY5MDI4ODc0MSwiZW1haWwiOiJ0ZXN0QGVtYWlsLmNvbSJ9.mYr2mM-kuKesKvLlZSAAnBg0oxVBAVN-N8rHv7wO8vc
+                        refresh_token:
+                            type: string
+                            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTAyODg3MTEsImV4cCI6MTY5MDI4ODc5MSwiZW1haWwiOiJ0ZXN0QGVtYWlsLmNvbSJ9.G3f47BBugty9msXem1TbqXCINpjdJ6mY0_UdrtOQlt0
+    '400':
+        description: Bad request
+        content:
+            application/json:
+                schema:
+                    type: object
+                    properties:
+                        msg:
+                            type: string
+                            example: Bad request
+    '401':
+        description: User not found
+        content:
+            application/json:
+                schema:
+                    type: object
+                    properties:
+                        msg:
+                            type: string
+                            example: Bad username or password
