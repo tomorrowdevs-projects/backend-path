@@ -1,0 +1,25 @@
+summary: This endpoint allows access to a protected area where authentication is required
+security:
+  - bearerAuth: []
+tags:
+    - index
+responses:
+    '200':
+        description: Successful operation
+        content:
+            text/html:
+                schema:
+                    type: string
+                    example: Welcome in the protected area.
+    '400':
+        description: Token expired or error decoding token
+    '401':
+        description: Unauthorized
+        content:
+            application/json:
+                schema:
+                    type: object
+                    properties:
+                        msg:
+                            type: string
+                            example: Authorization required

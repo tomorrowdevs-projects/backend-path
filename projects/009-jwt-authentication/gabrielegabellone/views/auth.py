@@ -1,6 +1,7 @@
 import datetime
 
 from flask import Blueprint, request, make_response, jsonify, current_app
+from flasgger import swag_from
 import jwt
 
 
@@ -54,6 +55,7 @@ def generate_token(duration: int, payload: dict) -> str:
 
 
 @bp.route("/login", methods=["POST"])
+@swag_from("../docs/login.yml")
 def login():
     data = request.get_json()
     try:
@@ -72,6 +74,7 @@ def login():
 
 
 @bp.route("/refresh", methods=["POST"])
+@swag_from("../docs/refresh.yml")
 def refresh():
     data = request.get_json()
     key = current_app.config["SECRET_KEY"]
@@ -91,6 +94,7 @@ def refresh():
 
 
 @bp.route("/logout", methods=["POST"])
+@swag_from("../docs/logout.yml")
 @token_required
 def logout():
     token = request.headers["Authorization"][7:]

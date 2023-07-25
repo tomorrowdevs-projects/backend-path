@@ -1,0 +1,11 @@
+summary: This endpoint allows access to the homepage, an area where authentication is not required
+tags:
+    - index
+responses:
+    '200':
+        description: Successful operation
+        content:
+            text/html:
+                schema:
+                    type: string
+                    example: This is the homepage and it is an unprotected route.
