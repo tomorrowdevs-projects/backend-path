@@ -1,0 +1,23 @@
+summary: This endpoint allows you to access an area reserved for admin users
+tags:
+    - index
+responses:
+    '200':
+        description: Successful operation
+        content:
+            text/html:
+                schema:
+                    type: string
+                    example: Welcome to the admin area, mariorossi.
+    '302':
+        description: Redirect to login page
+    '403':
+        description: Forbidden
+        content:
+            application/json:
+                schema:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: Reserved area for admin users

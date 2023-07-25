@@ -1,0 +1,13 @@
+summary: This endpoint allows access to an area in which users with any role can access
+tags:
+    - index
+responses:
+    '200':
+        description: Successful operation
+        content:
+            text/html:
+                schema:
+                    type: string
+                    example: Welcome to the regular area, mariorossi.
+    '302':
+        description: Redirect to login page

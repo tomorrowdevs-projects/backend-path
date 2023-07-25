@@ -1,0 +1,37 @@
+summary: This endpoint allows you to log into the system
+tags:
+    - auth
+requestBody:
+    content:
+        application/json:
+            schema:
+                type: object
+                properties:
+                    username:
+                        type: string
+                        example: mariorossi
+                    password:
+                        type: string
+                        example: password
+    required: true
+responses:
+    '200':
+        description: Successful operation
+        content:
+            application/json:
+                schema:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: Login successful
+    '404':
+        description: User not found
+        content:
+            application/json:
+                schema:
+                    type: object
+                    properties:
+                        msg:
+                            type: string
+                            example: User not found

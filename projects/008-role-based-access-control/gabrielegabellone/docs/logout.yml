@@ -1,0 +1,16 @@
+summary: This endpoint allow you to logout to the system
+tags:
+    - auth
+responses:
+    '200':
+        description: Successful operation
+        content:
+            application/json:
+                schema:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: Logout successful
+    '302':
+        description: Redirect to login page
