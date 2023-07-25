@@ -13,6 +13,7 @@ exports.validate = (requiredFields) => (req, res, next) => {
         `fields: ${requiredFields}  are required and must be numbers`,
         400
       );
+
       return next(err);
     }
   }

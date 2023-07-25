@@ -234,6 +234,19 @@ paths:
                   message:
                     type: string
                     example: fields dividend, divisor are required and must be numbers
+        "422":
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: Division by zero is not allowed.
         "500":
           description: Internal Server Error
           content:

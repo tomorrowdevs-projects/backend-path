@@ -1,3 +1,5 @@
+const AppError = require("../util/appError");
+
 exports.sum = (req, res) => {
   const { num1, num2 } = req.body;
   const parsedNum1 = parseFloat(num1);
@@ -40,10 +42,15 @@ exports.multiply = (req, res) => {
   });
 };
 
-exports.divide = (req, res) => {
+exports.divide = (req, res, next) => {
   const { dividend, divisor } = req.body;
   const parsedDividend = parseFloat(dividend);
   const parsedDivisor = parseFloat(divisor);
+
+  if (parsedDivisor === 0) {
+    const err = new AppError("Division by zero is not allowed.", 422);
+    return next(err);
+  }
 
   const result = parsedDividend / parsedDivisor;
   res.status(200).json({
