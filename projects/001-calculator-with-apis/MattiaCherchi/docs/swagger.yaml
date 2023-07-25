@@ -39,8 +39,8 @@ paths:
                     type: object
                     properties:
                       sum:
-                        type: string
-                        example: "10.00"
+                        type: number
+                        example: 10
         "400":
           description: Bad Request
           content:
@@ -99,8 +99,8 @@ paths:
                     type: object
                     properties:
                       sum:
-                        type: string
-                        example: "5.00"
+                        type: number
+                        example: 5
         "400":
           description: Bad Request
           content:
@@ -159,8 +159,8 @@ paths:
                     type: object
                     properties:
                       sum:
-                        type: string
-                        example: "50.00"
+                        type: number
+                        example: 50
         "400":
           description: Bad Request
           content:
@@ -219,8 +219,8 @@ paths:
                     type: object
                     properties:
                       sum:
-                        type: string
-                        example: "3.00"
+                        type: number
+                        example: 3
         "400":
           description: Bad Request
           content:

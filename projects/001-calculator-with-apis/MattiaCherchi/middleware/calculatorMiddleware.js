@@ -1,7 +1,9 @@
 exports.sum = (req, res) => {
   const { num1, num2 } = req.body;
+  const parsedNum1 = parseFloat(num1);
+  const parsedNum2 = parseFloat(num2);
 
-  const result = (num1 + num2).toFixed(2);
+  const result = parsedNum1 + parsedNum2;
   res.status(200).json({
     status: "success",
     data: {
@@ -12,7 +14,10 @@ exports.sum = (req, res) => {
 
 exports.subtract = (req, res) => {
   const { minuted, subtrahend } = req.body;
-  const result = (minuted - subtrahend).toFixed(2);
+  const parsedMinuted = parseFloat(minuted);
+  const parsedSubtrahend = parseFloat(subtrahend);
+
+  const result = parsedMinuted - parsedSubtrahend;
   res.status(200).json({
     status: "success",
     data: {
@@ -23,7 +28,10 @@ exports.subtract = (req, res) => {
 
 exports.multiply = (req, res) => {
   const { multiplier, multiplicand } = req.body;
-  const result = (multiplier * multiplicand).toFixed(2);
+  const parsedMultiplier = parseFloat(multiplier);
+  const parsedMultiplicand = parseFloat(multiplicand);
+
+  const result = parsedMultiplier * parsedMultiplicand;
   res.status(200).json({
     status: "success",
     data: {
@@ -34,7 +42,10 @@ exports.multiply = (req, res) => {
 
 exports.divide = (req, res) => {
   const { dividend, divisor } = req.body;
-  const result = (dividend / divisor).toFixed(2);
+  const parsedDividend = parseFloat(dividend);
+  const parsedDivisor = parseFloat(divisor);
+
+  const result = parsedDividend / parsedDivisor;
   res.status(200).json({
     status: "success",
     data: {
