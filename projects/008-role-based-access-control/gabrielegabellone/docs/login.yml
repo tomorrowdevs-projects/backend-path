@@ -1,4 +1,4 @@
-summary: This endpoint allows you to log out of the system
+summary: This endpoint allows you to log into the system
 tags:
     - auth
 requestBody:

@@ -1,4 +1,4 @@
-summary: This endpoint allows you to log out of the system
+summary: This endpoint allows you to access an area reserved for admin users
 tags:
     - index
 responses:

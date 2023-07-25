@@ -1,4 +1,4 @@
-summary: This endpoint allows you to access an area reserved for admin users
+summary: This endpoint allows access to an area in which users with any role can access
 tags:
     - index
 responses:
@@ -8,6 +8,6 @@ responses:
             text/html:
                 schema:
                     type: string
-                    example: Welcome to the admin area, mariorossi.
+                    example: Welcome to the regular area, mariorossi.
     '302':
         description: Redirect to login page

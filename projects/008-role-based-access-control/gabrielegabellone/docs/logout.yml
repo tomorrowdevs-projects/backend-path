@@ -1,4 +1,4 @@
-summary: This endpoint allow you to logout
+summary: This endpoint allow you to logout to the system
 tags:
     - auth
 responses:
