@@ -1,6 +1,6 @@
 const express = require("express");
 const validator = require("../middleware/validatorMiddleware");
-const calculatorMiddleware = require("../middleware/calculatorMiddleware");
+const calculatorMiddleware = require("../controllers/calculatorMiddleware");
 
 const router = express.Router();
 
