@@ -4,8 +4,8 @@ const morgan = require("morgan");
 const YAML = require("yamljs");
 const swaggerUi = require("swagger-ui-express");
 const calculatorRouter = require("./routes/calculatorRoutes");
-const globalErrorHandler = require("./middleware/errorMiddleware");
-const AppError = require("./util/appError");
+const globalErrorHandler = require("./middlewares/errorMiddleware");
+const AppError = require("./utils/appError");
 
 const app = express();
 

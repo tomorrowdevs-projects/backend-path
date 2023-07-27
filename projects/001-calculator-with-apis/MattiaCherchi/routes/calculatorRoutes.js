@@ -1,29 +1,29 @@
 const express = require("express");
-const validator = require("../middleware/validatorMiddleware");
-const calculatorMiddleware = require("../controllers/calculatorMiddleware");
+const validator = require("../middlewares/validatorMiddleware");
+const calculatorController = require("../controllers/calculatorController");
 
 const router = express.Router();
 
 router.post(
   "/sum",
   validator.validate(["num1", "num2"]),
-  calculatorMiddleware.sum
+  calculatorController.sum
 );
 router.post(
   "/subtract",
   validator.validate(["minuted", "subtrahend"]),
-  calculatorMiddleware.subtract
+  calculatorController.subtract
 );
 
 router.post(
   "/multiply",
   validator.validate(["multiplier", "multiplicand"]),
-  calculatorMiddleware.multiply
+  calculatorController.multiply
 );
 router.post(
   "/divide",
   validator.validate(["dividend", "divisor"]),
-  calculatorMiddleware.divide
+  calculatorController.divide
 );
 
 module.exports = router;

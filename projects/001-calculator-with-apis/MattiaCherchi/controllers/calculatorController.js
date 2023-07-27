@@ -1,4 +1,4 @@
-const AppError = require("../util/appError");
+const AppError = require("../utils/appError");
 
 exports.sum = (req, res) => {
   const { num1, num2 } = req.body;

@@ -1,4 +1,4 @@
-const AppError = require("../util/appError");
+const AppError = require("../utils/appError");
 
 exports.validate = (requiredFields) => (req, res, next) => {
   const numberType = ["number"];
