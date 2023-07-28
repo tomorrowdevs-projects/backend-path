@@ -1,6 +1,6 @@
-const AppError = require("../utils/appError");
+import AppError from "../utils/appError.js";
 
-exports.sum = (req, res) => {
+export const sum = (req, res) => {
   const { num1, num2 } = req.body;
   const parsedNum1 = parseFloat(num1);
   const parsedNum2 = parseFloat(num2);
@@ -14,7 +14,7 @@ exports.sum = (req, res) => {
   });
 };
 
-exports.subtract = (req, res) => {
+export const subtract = (req, res) => {
   const { minuted, subtrahend } = req.body;
   const parsedMinuted = parseFloat(minuted);
   const parsedSubtrahend = parseFloat(subtrahend);
@@ -28,7 +28,7 @@ exports.subtract = (req, res) => {
   });
 };
 
-exports.multiply = (req, res) => {
+export const multiply = (req, res) => {
   const { multiplier, multiplicand } = req.body;
   const parsedMultiplier = parseFloat(multiplier);
   const parsedMultiplicand = parseFloat(multiplicand);
@@ -42,7 +42,7 @@ exports.multiply = (req, res) => {
   });
 };
 
-exports.divide = (req, res, next) => {
+export const divide = (req, res, next) => {
   const { dividend, divisor } = req.body;
   const parsedDividend = parseFloat(dividend);
   const parsedDivisor = parseFloat(divisor);

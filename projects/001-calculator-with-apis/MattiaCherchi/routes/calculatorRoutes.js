@@ -1,29 +1,28 @@
-const express = require("express");
-const validator = require("../middlewares/validatorMiddleware");
-const calculatorController = require("../controllers/calculatorController");
+import express from "express";
+import validate from "../middlewares/validatorMiddleware.js";
+import {
+  sum,
+  subtract,
+  multiply,
+  divide,
+} from "../controllers/calculatorController.js";
 
-const router = express.Router();
+const calculatorRouter = express.Router();
 
-router.post(
-  "/sum",
-  validator.validate(["num1", "num2"]),
-  calculatorController.sum
-);
-router.post(
+calculatorRouter.post("/sum", validate(["num1", "num2"]), sum);
+
+calculatorRouter.post(
   "/subtract",
-  validator.validate(["minuted", "subtrahend"]),
-  calculatorController.subtract
+  validate(["minuted", "subtrahend"]),
+  subtract
 );
 
-router.post(
+calculatorRouter.post(
   "/multiply",
-  validator.validate(["multiplier", "multiplicand"]),
-  calculatorController.multiply
-);
-router.post(
-  "/divide",
-  validator.validate(["dividend", "divisor"]),
-  calculatorController.divide
+  validate(["multiplier", "multiplicand"]),
+  multiply
 );
 
-module.exports = router;
+calculatorRouter.post("/divide", validate(["dividend", "divisor"]), divide);
+
+export default calculatorRouter;

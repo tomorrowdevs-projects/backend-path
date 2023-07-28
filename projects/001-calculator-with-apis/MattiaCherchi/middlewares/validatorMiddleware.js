@@ -1,6 +1,6 @@
-const AppError = require("../utils/appError");
+import AppError from "../utils/appError.js";
 
-exports.validate = (requiredFields) => (req, res, next) => {
+const validate = (requiredFields) => (req, res, next) => {
   const numberType = ["number"];
   const { body } = req;
 
@@ -20,3 +20,5 @@ exports.validate = (requiredFields) => (req, res, next) => {
 
   next();
 };
+
+export default validate;
