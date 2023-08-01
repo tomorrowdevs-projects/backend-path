@@ -24,6 +24,13 @@ def credentials_to_dict(credentials: Credentials) -> dict:
 
 
 def login_required(function):
+    """Protects the route of the view function passed as a parameter. Check if there is a token in the session and if
+    yes, check its validity. If successful, the function is executed and the user's name is also stored in the
+    session so that it can be recalled.
+
+    :param function: the view function of the route to be protected
+    :return: the function passed as a parameter, otherwise it responds with status code 401 if the check is not successful
+    """
     def wrapper(*args, **kwargs):
         if 'credentials' in session:
             credentials = session['credentials']
@@ -50,11 +57,7 @@ def login():
     flow = Flow.from_client_secrets_file(client_secrets_file=client_secrets_file, scopes=SCOPES)
     flow.redirect_uri = REDIRECT_URI
 
-    authorization_url, state = flow.authorization_url(
-        # Enable offline access so that you can refresh an access token without
-        # re-prompting the user for permission.
-        access_type='offline',
-        include_granted_scopes='true')
+    authorization_url, state = flow.authorization_url(include_granted_scopes='true')
 
     # Store the state so the callback can verify the auth server response.
     session['state'] = state
