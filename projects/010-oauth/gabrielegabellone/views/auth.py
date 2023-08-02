@@ -23,10 +23,21 @@ def credentials_to_dict(credentials: Credentials) -> dict:
             'scopes': credentials.scopes}
 
 
+def get_user_name(token: str) -> str:
+    """Takes care of getting the full name of the user.
+
+    :param token: the token to perform the request
+    :return: the full name of the user
+    """
+    get_user = requests.get('https://www.googleapis.com/oauth2/v1/userinfo',
+                            headers={'Authorization': f'Bearer {token}'})
+    name = get_user.json()['name']
+    return name
+
+
 def login_required(function):
     """Protects the route of the view function passed as a parameter. Check if there is a token in the session and if
-    yes, check its validity. If successful, the function is executed and the user's name is also stored in the
-    session so that it can be recalled.
+    yes, check its validity.
 
     :param function: the view function of the route to be protected
     :return: the function passed as a parameter, otherwise it responds with status code 401 if the check is not successful
@@ -37,16 +48,9 @@ def login_required(function):
             if 'token' in credentials:
                 token = credentials['token']
                 check_token = requests.get(f'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={token}')
-
                 if check_token.ok:
-                    get_user = requests.get('https://www.googleapis.com/oauth2/v1/userinfo',
-                                            headers={'Authorization': f'Bearer {token}'})
-                    name = get_user.json()['name']
-                    session['name'] = name
                     return function()
-
         return make_response(jsonify({'message': 'Authorization required.'}), 401)
-
     return wrapper
 
 
@@ -75,13 +79,13 @@ def callback():
     flow = Flow.from_client_secrets_file(client_secrets_file=client_secrets_file, scopes=SCOPES, state=state)
     flow.redirect_uri = REDIRECT_URI
 
-    # Use the authorization server's response to fetch the OAuth 2.0 tokens.
     authorization_response = request.url
     flow.fetch_token(authorization_response=authorization_response)
 
-    # Store credentials in the session.
+    # Store credentials and user name in the session.
     credentials = flow.credentials
     session['credentials'] = credentials_to_dict(credentials)
+    session['name'] = get_user_name(credentials.token)
 
     return redirect('/protected_area')
 
@@ -91,11 +95,9 @@ def callback():
 def logout():
     credentials = Credentials(**session['credentials'])
 
-    revoke_token = requests.post('https://oauth2.googleapis.com/revoke',
-                                 params={'token': credentials.token},
-                                 headers={'content-type': 'application/x-www-form-urlencoded'})
+    requests.post('https://oauth2.googleapis.com/revoke',
+                  params={'token': credentials.token},
+                  headers={'content-type': 'application/x-www-form-urlencoded'})
 
-    if revoke_token.ok:
-        session.clear()
-        return {'message': 'Logout successful.'}
-    return {'message': 'Error revoking token.'}
+    session.clear()
+    return {'message': 'Logout successful.'}

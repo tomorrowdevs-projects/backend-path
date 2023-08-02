@@ -18,11 +18,11 @@ class TestIndex(unittest.TestCase):
         with self.app.test_client() as client:
             with client.session_transaction() as sess:
                 sess['credentials'] = {'token': '1234567890'}
+                sess['name'] = 'Name Surname'
 
         # mocked the return values for the request that checks the validity of the token
         mock_response = MagicMock()
         mock_response.status_code = 200
-        mock_response.json.return_value = {'name': 'Name Surname'}
 
         mock_requests.get.return_value = mock_response
 

@@ -30,7 +30,8 @@ class TestAuth(unittest.TestCase):
         self.assertEqual(actual_redirect_uri, expected_redirect_uri, 'Expected another redirect URI.')
 
     @patch.object(Flow, 'fetch_token')
-    def test_callback(self, mock_fetch_token):
+    @patch('views.auth.get_user_name')
+    def test_callback(self, mock_fetch_token, mock_get_user_name):
         """Tests that the endpoint responds with status code 302 and redirects to the correct route."""
         # set a state in the session
         with self.app.test_client() as client:
@@ -56,6 +57,7 @@ class TestAuth(unittest.TestCase):
                                       scopes=['https://www.googleapis.com/auth/userinfo.profile'])
 
             mock_flow_credentials.return_value = credentials
+            mock_get_user_name.return_value = 'Name Surname'
 
             # tests
             response = client.get('/auth/callback?state=mock_state&code=4/0AZEOvhVcZzO0')
@@ -74,8 +76,6 @@ class TestAuth(unittest.TestCase):
         # mocked the return values for the request that checks the validity of the token
         mock_response_check_token = MagicMock()
         mock_response_check_token.status_code = 200
-        mock_response_check_token.json.return_value = {'name': 'test'}
-
         mock_request_check_token.get.return_value = mock_response_check_token
 
         # tests
