@@ -7,7 +7,7 @@ from oauthlib.oauth2.rfc6749.tokens import OAuth2Token
 from google.oauth2.credentials import Credentials
 
 from app import create_app
-from views.auth import REDIRECT_URI, Flow, credentials_to_dict
+from views.auth import REDIRECT_URI, Flow, credentials_to_dict, get_user_name
 
 
 class TestAuth(unittest.TestCase):
@@ -118,3 +118,14 @@ class TestAuth(unittest.TestCase):
         actual = credentials_to_dict(credentials)
         expected = {'client_id': '1234567890.apps.googleusercontent.com', 'client_secret': 'test_client_secret', 'refresh_token': None, 'scopes': ['https://www.googleapis.com/auth/userinfo.profile'], 'token': 'MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3', 'token_uri': 'https://oauth2.googleapis.com/token'}
         self.assertEqual(actual, expected)
+
+    @patch('views.auth.requests.get')
+    def test_get_user_name(self, mock_get_userinfo):
+        """Test that the function correctly returns the full name of the user."""
+        mock_get_userinfo.return_value.status_code = 200
+        mock_get_userinfo.return_value.json.return_value = {'id': '1234567890', 'name': 'Mario Rossi', 'given_name': 'Mario', 'family_name': 'Rossi', 'locale': 'it'}
+
+        fake_token = 'token'
+        actual = get_user_name(fake_token)
+        expected = 'Mario Rossi'
+        self.assertEqual(actual, expected, 'Expected the function return another name.')
