@@ -3,11 +3,19 @@
 This is a repository containing all the projects for **TomorrowDevs** students to learn Backend Development. <br />
 This repo aims to give students a way to discover, study, and implement microservices, API, REST architecture, Socket, and so on.
 
-Before committing anything to that repo, please read the contribution guide at [CONTRIBUTING.md](/CONTRIBUTING.md).
 
-<hr>
+## Your Learning Path Tasks
 
-<img src="https://github.com/tomorrowdevs-projects/programming-basics/blob/main/logo-td.png">
+- [ ] [Protocols, HTTP, and RESTful applications](./chapter-1/LEARNING-PATH.md)
+- [ ] [Databases and Authentication](./chapter-2/LEARNING-PATH.md)
+- [ ] [Operating Systems, SOAP, GraphQL](./chapter-3/LEARNING-PATH.md)
+- [ ] [Design Patterns, Cache Management, Security](./chapter-4/LEARNING-PATH.md)
+- [ ] [Computer Science, Sockets, Message Brokers](./chapter-5/LEARNING-PATH.md)
+
+
+
+## **Credits** 
+<img src="./logo-td.png" width="300">
 
 ### A Mentorship program for developers
 
@@ -30,8 +38,3 @@ Need help in solution development, guidance, training or capacity building, care
 We are a community of Software Engineers with years of technical and leadership experience in a diverse range of technologies and domains. 
 
 Let us know what problem you are facing at <b>http://www.tomorrowdevs.com</b> and we can schedule a consultation meeting to help you get through it.
-
-## Contributions Welcome
-[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](#)
-
-If you find any bug in the code or have any improvements in mind then feel free to generate a pull request.
