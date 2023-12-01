@@ -11,6 +11,7 @@ This repo aims to give students a way to discover, study, and implement microser
 - [ ] [Operating Systems, SOAP, GraphQL](./chapter-3/LEARNING-PATH.md)
 - [ ] [Design Patterns, Cache Management, Security](./chapter-4/LEARNING-PATH.md)
 - [ ] [Computer Science, Sockets, Message Brokers](./chapter-5/LEARNING-PATH.md)
+- [ ] [Containers, CI / CD](./chapter-6/LEARNING-PATH.md)
 
 
 
